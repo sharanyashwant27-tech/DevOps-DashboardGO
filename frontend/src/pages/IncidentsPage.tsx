@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
+import PageHero from '../components/common/PageHero';
 import { incidentApi } from '../services/api';
 import type { Incident } from '../types';
 
@@ -50,9 +51,12 @@ export default function IncidentsPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Incident Management
-      </Typography>
+      <PageHero
+        eyebrow="Reliability"
+        title="Incident Management"
+        subtitle="Prioritize, assign, and resolve operational incidents"
+        accent="#fb7185"
+      />
 
       <TextField
         select

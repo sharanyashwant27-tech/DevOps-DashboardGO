@@ -32,20 +32,20 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeModeContext';
 
-const width = 260;
+const width = 268;
 
 const nav = [
-  { to: '/', label: 'Dashboard', icon: <DashboardIcon /> },
-  { to: '/projects', label: 'Projects', icon: <FolderIcon /> },
-  { to: '/jenkins', label: 'Jenkins', icon: <BuildIcon /> },
-  { to: '/github', label: 'GitHub', icon: <GitHubIcon /> },
-  { to: '/docker', label: 'Docker', icon: <ViewInArIcon /> },
-  { to: '/kubernetes', label: 'Kubernetes', icon: <HubIcon /> },
-  { to: '/servers', label: 'Servers', icon: <DnsIcon /> },
-  { to: '/deployments', label: 'Deployments', icon: <RocketLaunchIcon /> },
-  { to: '/incidents', label: 'Incidents', icon: <ReportIcon /> },
-  { to: '/alerts', label: 'Alerts', icon: <NotificationsActiveIcon /> },
-  { to: '/settings', label: 'Settings', icon: <SettingsIcon /> },
+  { to: '/', label: 'Dashboard', icon: <DashboardIcon />, accent: '#22d3ee' },
+  { to: '/projects', label: 'Projects', icon: <FolderIcon />, accent: '#38bdf8' },
+  { to: '/jenkins', label: 'Jenkins', icon: <BuildIcon />, accent: '#fbbf24' },
+  { to: '/github', label: 'GitHub', icon: <GitHubIcon />, accent: '#a78bfa' },
+  { to: '/docker', label: 'Docker', icon: <ViewInArIcon />, accent: '#06b6d4' },
+  { to: '/kubernetes', label: 'Kubernetes', icon: <HubIcon />, accent: '#60a5fa' },
+  { to: '/servers', label: 'Servers', icon: <DnsIcon />, accent: '#34d399' },
+  { to: '/deployments', label: 'Deployments', icon: <RocketLaunchIcon />, accent: '#2dd4bf' },
+  { to: '/incidents', label: 'Incidents', icon: <ReportIcon />, accent: '#fb7185' },
+  { to: '/alerts', label: 'Alerts', icon: <NotificationsActiveIcon />, accent: '#f59e0b' },
+  { to: '/settings', label: 'Settings', icon: <SettingsIcon />, accent: '#94a3b8' },
 ];
 
 export default function AppLayout() {
@@ -56,16 +56,21 @@ export default function AppLayout() {
   const [open, setOpen] = useState(!isMobile);
 
   const drawer = (
-    <Box className="h-full flex flex-col" sx={{ bgcolor: 'background.paper' }}>
+    <Box className="h-full flex flex-col nav-rail">
       <Box className="px-5 py-6">
-        <Typography variant="h6" className="font-display tracking-tight">
-          DevOps Command Center
-        </Typography>
-        <Typography variant="caption" color="text.secondary">
-          Multi-cloud operations hub
-        </Typography>
+        <div className="flex items-center gap-3 mb-2">
+          <span className="brand-mark">DC</span>
+          <div>
+            <Typography variant="subtitle1" className="font-display leading-tight">
+              DevOps Command
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              Colorful ops console
+            </Typography>
+          </div>
+        </div>
       </Box>
-      <List className="flex-1 px-2">
+      <List className="flex-1 px-2 overflow-auto">
         {nav.map((item) => (
           <ListItemButton
             key={item.to}
@@ -73,21 +78,44 @@ export default function AppLayout() {
             to={item.to}
             end={item.to === '/'}
             sx={{
-              borderRadius: 2,
+              borderRadius: 2.5,
               mb: 0.5,
-              '&.active': { bgcolor: 'rgba(14,165,164,0.15)', color: 'primary.main' },
+              transition: 'all 0.2s ease',
+              '&:hover': {
+                bgcolor: `${item.accent}18`,
+              },
+              '&.active': {
+                bgcolor: `${item.accent}22`,
+                color: item.accent,
+                boxShadow: `inset 3px 0 0 ${item.accent}`,
+              },
             }}
           >
             <ListItemIcon sx={{ minWidth: 40, color: 'inherit' }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.label} />
+            <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 600 }} />
           </ListItemButton>
         ))}
       </List>
-      <Box className="p-4 border-t border-white/10">
+      <Box
+        className="p-4 m-3 rounded-2xl"
+        sx={{
+          border: '1px solid var(--line)',
+          background: 'linear-gradient(135deg, rgba(34,211,238,0.12), rgba(251,191,36,0.08))',
+        }}
+      >
         <Typography variant="body2" className="font-medium">
           {user?.name}
         </Typography>
-        <Chip size="small" label={user?.role} sx={{ mt: 1 }} color="primary" variant="outlined" />
+        <Chip
+          size="small"
+          label={user?.role}
+          sx={{
+            mt: 1,
+            bgcolor: 'rgba(34,211,238,0.18)',
+            color: 'primary.main',
+            border: '1px solid rgba(34,211,238,0.35)',
+          }}
+        />
       </Box>
     </Box>
   );
@@ -100,7 +128,12 @@ export default function AppLayout() {
         onClose={() => setOpen(false)}
         sx={{
           width,
-          [`& .MuiDrawer-paper`]: { width, boxSizing: 'border-box', borderRight: '1px solid var(--line)' },
+          [`& .MuiDrawer-paper`]: {
+            width,
+            boxSizing: 'border-box',
+            borderRight: '1px solid var(--line)',
+            background: 'transparent',
+          },
         }}
       >
         {drawer}
@@ -110,18 +143,32 @@ export default function AppLayout() {
           position="sticky"
           elevation={0}
           color="transparent"
-          sx={{ borderBottom: '1px solid var(--line)', backdropFilter: 'blur(10px)' }}
+          sx={{
+            borderBottom: '1px solid var(--line)',
+            backdropFilter: 'blur(14px)',
+            background: 'linear-gradient(90deg, rgba(34,211,238,0.08), rgba(251,191,36,0.06), transparent 70%)',
+          }}
         >
           <Toolbar className="gap-2">
             {isMobile && (
-              <IconButton onClick={() => setOpen(true)}>
+              <IconButton onClick={() => setOpen(true)} sx={{ color: 'primary.main' }}>
                 <MenuIcon />
               </IconButton>
             )}
             <Typography variant="h6" className="flex-1 font-display">
               Operations Console
             </Typography>
-            <IconButton onClick={toggle} aria-label="toggle theme">
+            <Chip
+              size="small"
+              label="Live stack"
+              sx={{
+                display: { xs: 'none', sm: 'inline-flex' },
+                bgcolor: 'rgba(52,211,153,0.15)',
+                color: '#34d399',
+                border: '1px solid rgba(52,211,153,0.35)',
+              }}
+            />
+            <IconButton onClick={toggle} aria-label="toggle theme" sx={{ color: 'secondary.main' }}>
               {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
             <IconButton
@@ -130,10 +177,11 @@ export default function AppLayout() {
                 navigate('/login');
               }}
               aria-label="logout"
+              sx={{ color: 'error.main' }}
             >
               <LogoutIcon />
             </IconButton>
-            <Link to="/settings" className="text-sm opacity-80 hover:opacity-100">
+            <Link to="/settings" className="link-accent text-sm">
               Settings
             </Link>
           </Toolbar>

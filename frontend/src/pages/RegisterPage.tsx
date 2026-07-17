@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Alert, Button, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Button, TextField, Typography } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
 export default function RegisterPage() {
@@ -29,11 +29,19 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center p-4">
-      <Paper className="glass-panel w-full max-w-md p-8" elevation={0}>
-        <Typography variant="h4" className="font-display mb-6">
-          Create account
-        </Typography>
+    <div className="auth-shell">
+      <div className="auth-card">
+        <div className="flex items-center gap-3 mb-5">
+          <span className="brand-mark">DC</span>
+          <div>
+            <Typography variant="h5" className="font-display">
+              Create account
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Join the operations workspace
+            </Typography>
+          </div>
+        </div>
         {error && (
           <Alert severity="error" className="mb-4">
             {error}
@@ -54,13 +62,13 @@ export default function RegisterPage() {
             Register
           </Button>
         </form>
-        <Typography className="mt-4 text-sm">
+        <Typography className="mt-5 text-sm" color="text.secondary">
           Already have an account?{' '}
-          <Link to="/login" className="text-teal-400 hover:underline">
+          <Link to="/login" className="link-accent">
             Sign in
           </Link>
         </Typography>
-      </Paper>
+      </div>
     </div>
   );
 }

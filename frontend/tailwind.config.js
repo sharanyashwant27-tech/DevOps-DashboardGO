@@ -11,19 +11,24 @@ export default {
       },
       colors: {
         ink: {
-          950: '#0b1220',
-          900: '#111827',
-          800: '#1f2937',
+          950: '#07101f',
+          900: '#0c1a2e',
+          800: '#12243a',
         },
         accent: {
-          DEFAULT: '#0ea5a4',
-          soft: '#14b8a6',
+          DEFAULT: '#22d3ee',
+          soft: '#67e8f9',
+          sky: '#38bdf8',
+          warm: '#fbbf24',
+          coral: '#fb7185',
+          mint: '#34d399',
           warn: '#f59e0b',
-          danger: '#ef4444',
+          danger: '#f43f5e',
         },
       },
       boxShadow: {
-        glow: '0 0 40px rgba(14, 165, 164, 0.15)',
+        glow: '0 0 40px rgba(34, 211, 238, 0.22)',
+        warm: '0 0 36px rgba(251, 191, 36, 0.2)',
       },
       keyframes: {
         rise: {

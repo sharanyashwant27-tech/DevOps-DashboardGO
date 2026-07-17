@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PageHero from '../components/common/PageHero';
 import { projectApi } from '../services/api';
 import type { Project } from '../types';
 
@@ -24,14 +25,12 @@ export default function ProjectsPage() {
 
   return (
     <div className="space-y-4">
-      <div>
-        <Typography variant="h4" className="font-display">
-          Projects
-        </Typography>
-        <Typography color="text.secondary">
-          Organizations and applications managed in Command Center
-        </Typography>
-      </div>
+      <PageHero
+        eyebrow="Portfolio"
+        title="Projects"
+        subtitle="Organizations and applications managed in Command Center"
+        accent="#38bdf8"
+      />
 
       <TextField
         size="small"

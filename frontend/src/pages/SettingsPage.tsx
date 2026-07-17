@@ -12,18 +12,19 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeModeContext';
+import PageHero from '../components/common/PageHero';
 import StatCard from '../components/dashboard/StatCard';
 
 const modules = [
-  { title: 'Dashboard', subtitle: 'Live KPIs & charts', to: '/', icon: <DashboardIcon />, accent: '#0ea5a4' },
-  { title: 'Projects', subtitle: 'Apps & organizations', to: '/projects', icon: <FolderIcon />, accent: '#3b82f6' },
-  { title: 'Jenkins', subtitle: 'Pipelines & builds', to: '/jenkins', icon: <BuildIcon />, accent: '#d97706' },
-  { title: 'GitHub', subtitle: 'Repos & Actions', to: '/github', icon: <GitHubIcon />, accent: '#8b5cf6' },
+  { title: 'Dashboard', subtitle: 'Live KPIs & charts', to: '/', icon: <DashboardIcon />, accent: '#22d3ee' },
+  { title: 'Projects', subtitle: 'Apps & organizations', to: '/projects', icon: <FolderIcon />, accent: '#38bdf8' },
+  { title: 'Jenkins', subtitle: 'Pipelines & builds', to: '/jenkins', icon: <BuildIcon />, accent: '#fbbf24' },
+  { title: 'GitHub', subtitle: 'Repos & Actions', to: '/github', icon: <GitHubIcon />, accent: '#a78bfa' },
   { title: 'Docker', subtitle: 'Containers & images', to: '/docker', icon: <ViewInArIcon />, accent: '#06b6d4' },
-  { title: 'Kubernetes', subtitle: 'Pods & deployments', to: '/kubernetes', icon: <HubIcon />, accent: '#6366f1' },
-  { title: 'Servers', subtitle: 'Host metrics', to: '/servers', icon: <DnsIcon />, accent: '#14b8a6' },
-  { title: 'Deployments', subtitle: 'Release history', to: '/deployments', icon: <RocketLaunchIcon />, accent: '#0ea5a4' },
-  { title: 'Incidents', subtitle: 'Incident management', to: '/incidents', icon: <ReportIcon />, accent: '#f43f5e' },
+  { title: 'Kubernetes', subtitle: 'Pods & deployments', to: '/kubernetes', icon: <HubIcon />, accent: '#60a5fa' },
+  { title: 'Servers', subtitle: 'Host metrics', to: '/servers', icon: <DnsIcon />, accent: '#34d399' },
+  { title: 'Deployments', subtitle: 'Release history', to: '/deployments', icon: <RocketLaunchIcon />, accent: '#a3e635' },
+  { title: 'Incidents', subtitle: 'Incident management', to: '/incidents', icon: <ReportIcon />, accent: '#fb7185' },
   { title: 'Alerts', subtitle: 'Critical signals', to: '/alerts?severity=critical', icon: <NotificationsActiveIcon />, accent: '#f59e0b' },
 ];
 
@@ -47,14 +48,12 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Typography variant="h4" className="font-display">
-          Settings
-        </Typography>
-        <Typography color="text.secondary">
-          Operations Console preferences — click a module card to open its page
-        </Typography>
-      </div>
+      <PageHero
+        eyebrow="Workspace"
+        title="Settings"
+        subtitle="Operations Console preferences — click a module card to open its page"
+        accent="#94a3b8"
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
         {modules.map((m, i) => (

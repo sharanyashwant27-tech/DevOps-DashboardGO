@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Alert, Button, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Button, TextField, Typography } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
@@ -28,14 +28,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen grid place-items-center p-4">
-      <Paper className="glass-panel w-full max-w-md p-8" elevation={0}>
-        <Typography variant="h4" className="font-display mb-1">
-          DevOps Command Center
-        </Typography>
-        <Typography color="text.secondary" className="mb-6">
-          Sign in to your operations workspace
-        </Typography>
+    <div className="auth-shell">
+      <div className="auth-card">
+        <div className="flex items-center gap-3 mb-5">
+          <span className="brand-mark">DC</span>
+          <div>
+            <Typography variant="h5" className="font-display">
+              DevOps Command Center
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Sign in to your colorful ops workspace
+            </Typography>
+          </div>
+        </div>
         {error && (
           <Alert severity="error" className="mb-4">
             {error}
@@ -55,15 +60,15 @@ export default function LoginPage() {
             {loading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
-        <div className="mt-4 flex justify-between text-sm">
-          <Link to="/register" className="text-teal-400 hover:underline">
+        <div className="mt-5 flex justify-between text-sm">
+          <Link to="/register" className="link-accent">
             Create account
           </Link>
-          <Link to="/forgot-password" className="text-teal-400 hover:underline">
+          <Link to="/forgot-password" className="link-accent">
             Forgot password
           </Link>
         </div>
-      </Paper>
+      </div>
     </div>
   );
 }

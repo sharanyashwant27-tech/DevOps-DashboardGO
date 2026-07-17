@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import PageHero from '../components/common/PageHero';
 import { dockerApi } from '../services/api';
 
 export default function DockerPage() {
@@ -40,14 +41,17 @@ export default function DockerPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Docker Monitoring
-      </Typography>
+      <PageHero
+        eyebrow="Infrastructure"
+        title="Docker Monitoring"
+        subtitle="Live containers, images, and lifecycle controls from the host engine"
+        accent="#22d3ee"
+      />
       {containers.isError && <Alert severity="warning">Docker daemon unavailable.</Alert>}
 
       <TextField size="small" label="Search containers" value={search} onChange={(e) => setSearch(e.target.value)} />
 
-      <Paper className="glass-panel overflow-auto" elevation={0}>
+      <Paper className="glass-panel overflow-auto table-wrap" elevation={0}>
         <Table size="small">
           <TableHead>
             <TableRow>

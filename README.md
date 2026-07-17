@@ -6,7 +6,7 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 
 **Repository:** [sharanyashwant27-tech/DevOps-DashboardGO](https://github.com/sharanyashwant27-tech/DevOps-DashboardGO)  
 **Default app URL:** [http://localhost:8095](http://localhost:8095)  
-**Local image:** `devops-dashboard-go:latest` (v1.0.1)
+**Local image:** `devops-dashboard-go:latest` (v1.1.0)
 
 ---
 
@@ -15,7 +15,7 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 | Area | Capabilities |
 |------|----------------|
 | **Auth** | Register, login, forgot password, JWT + refresh, RBAC (`admin`, `devops`, `developer`, `viewer`) |
-| **Dashboard** | Animated KPI cards → modules, Chart.js, WebSocket live updates |
+| **Dashboard** | Colorful KPI cards → modules, Chart.js, WebSocket live updates |
 | **Jenkins** | Jobs, queue, builds, trigger/stop, console, filters (+ demo mode) |
 | **GitHub** | Live repos (username and/or PAT), commits, PRs, Actions, health |
 | **Docker** | Live containers/images/volumes/networks via host Docker socket |
@@ -90,9 +90,16 @@ docker run --rm -p 8095:8095 \
 
 The **backend image** (`devops-dashboard-go:latest`) is multi-stage:
 
-1. Builds the React UI (`node:20`)
+1. Builds the React UI (`node:20`) — aurora ops theme (cyan / amber / coral accents)
 2. Compiles the Go 1.25 API
 3. Serves UI + API from Alpine on port **8095** (non-root, healthcheck)
+
+### UI look & feel (v1.1.0)
+
+- Mesh gradient background + soft grid overlay
+- Color-coded nav, KPI cards, status chips, and page heroes
+- Glass panels, gradient primary buttons, auth screens with floating color orbs
+- Dark / light modes with a cyan–amber operations palette (Sora + IBM Plex)
 
 CI pushes the same Dockerfile to GHCR on `main`:
 

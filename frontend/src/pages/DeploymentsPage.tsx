@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import PageHero from '../components/common/PageHero';
 import { deploymentApi } from '../services/api';
 import type { Deployment } from '../types';
 
@@ -26,9 +27,12 @@ export default function DeploymentsPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Deployment History
-      </Typography>
+      <PageHero
+        eyebrow="Releases"
+        title="Deployment History"
+        subtitle="Track versions, environments, and rollbacks across applications"
+        accent="#a3e635"
+      />
       <Paper className="glass-panel overflow-auto" elevation={0}>
         <Table size="small">
           <TableHead>

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Paper, Typography } from '@mui/material';
+import PageHero from '../components/common/PageHero';
 import { serverApi } from '../services/api';
 
 export default function ServersPage() {
@@ -14,9 +15,12 @@ export default function ServersPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Server Monitoring
-      </Typography>
+      <PageHero
+        eyebrow="Infrastructure"
+        title="Server Monitoring"
+        subtitle="Host inventory and live CPU, memory, disk, and process metrics"
+        accent="#34d399"
+      />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Paper className="glass-panel p-4" elevation={0}>
           <Typography variant="h6" className="mb-2">

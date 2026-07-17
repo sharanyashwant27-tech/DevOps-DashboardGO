@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
+import PageHero from '../components/common/PageHero';
 import { alertApi } from '../services/api';
 import type { Alert } from '../types';
 
@@ -64,9 +65,12 @@ export default function AlertsPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Alert Dashboard
-      </Typography>
+      <PageHero
+        eyebrow="Signals"
+        title="Alert Dashboard"
+        subtitle="Acknowledge, mute, and resolve alerts across severity levels"
+        accent="#f59e0b"
+      />
       <div className="flex flex-wrap gap-3">
         <TextField size="small" label="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
         <TextField select size="small" label="Severity" value={severity} onChange={(e) => updateSeverity(e.target.value)} className="min-w-[140px]">

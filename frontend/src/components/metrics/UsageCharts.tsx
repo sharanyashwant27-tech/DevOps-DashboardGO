@@ -44,24 +44,24 @@ export default function UsageCharts({ cpu, memory, disk, successBuilds, failedBu
       {
         label: 'CPU %',
         data: trend(cpu),
-        borderColor: '#0ea5a4',
-        backgroundColor: 'rgba(14,165,164,0.15)',
+        borderColor: '#22d3ee',
+        backgroundColor: 'rgba(34,211,238,0.18)',
         fill: true,
         tension: 0.35,
       },
       {
         label: 'Memory %',
         data: trend(memory),
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.12)',
+        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(56,189,248,0.14)',
         fill: true,
         tension: 0.35,
       },
       {
         label: 'Disk %',
         data: trend(disk),
-        borderColor: '#f59e0b',
-        backgroundColor: 'rgba(245,158,11,0.1)',
+        borderColor: '#fbbf24',
+        backgroundColor: 'rgba(251,191,36,0.14)',
         fill: true,
         tension: 0.35,
       },
@@ -74,8 +74,8 @@ export default function UsageCharts({ cpu, memory, disk, successBuilds, failedBu
       {
         label: 'Builds',
         data: [successBuilds, failedBuilds],
-        backgroundColor: ['#0ea5a4', '#ef4444'],
-        borderRadius: 8,
+        backgroundColor: ['#34d399', '#fb7185'],
+        borderRadius: 10,
       },
     ],
   };
@@ -83,7 +83,7 @@ export default function UsageCharts({ cpu, memory, disk, successBuilds, failedBu
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
       <Paper className="glass-panel p-4 xl:col-span-2" elevation={0}>
-        <Typography variant="h6" className="mb-3 font-display">
+        <Typography variant="h6" className="mb-3 font-display" sx={{ color: 'primary.main' }}>
           Resource Usage
         </Typography>
         <Line
@@ -99,7 +99,7 @@ export default function UsageCharts({ cpu, memory, disk, successBuilds, failedBu
         />
       </Paper>
       <Paper className="glass-panel p-4" elevation={0}>
-        <Typography variant="h6" className="mb-3 font-display">
+        <Typography variant="h6" className="mb-3 font-display" sx={{ color: 'secondary.main' }}>
           Build Success Rate
         </Typography>
         <Bar

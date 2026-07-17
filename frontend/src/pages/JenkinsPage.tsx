@@ -21,6 +21,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import QueueIcon from '@mui/icons-material/Queue';
 import { jenkinsApi } from '../services/api';
+import PageHero from '../components/common/PageHero';
 import StatCard from '../components/dashboard/StatCard';
 
 type JenkinsJob = { name: string; color: string; url: string };
@@ -102,19 +103,17 @@ export default function JenkinsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start justify-between gap-3 flex-wrap">
-        <div>
-          <Typography variant="h4" className="font-display">
-            Jenkins Pipelines
-          </Typography>
-          <Typography color="text.secondary">
-            Click a status card to filter jobs — open a job row for builds and console
-          </Typography>
-        </div>
-        <Button component={Link} to="/settings" size="small" variant="outlined">
-          Integration settings
-        </Button>
-      </div>
+      <PageHero
+        eyebrow="CI / CD"
+        title="Jenkins Pipelines"
+        subtitle="Click a status card to filter jobs — open a job row for builds and console"
+        accent="#fbbf24"
+        action={
+          <Button component={Link} to="/settings" size="small" variant="outlined" color="secondary">
+            Integration settings
+          </Button>
+        }
+      />
 
       {filter && (
         <Chip

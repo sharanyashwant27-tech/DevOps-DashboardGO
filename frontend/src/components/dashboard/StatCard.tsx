@@ -17,22 +17,26 @@ export default function StatCard({
   value,
   subtitle,
   icon,
-  accent = '#0ea5a4',
+  accent = '#22d3ee',
   delay = 0,
   to,
 }: Props) {
   const content = (
     <>
       <div
-        className="absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-20"
+        className="absolute inset-x-0 top-0 h-1"
+        style={{ background: `linear-gradient(90deg, ${accent}, transparent 85%)` }}
+      />
+      <div
+        className="absolute -right-8 -top-10 h-28 w-28 rounded-full blur-2xl opacity-40"
         style={{ background: accent }}
       />
-      <div className="flex items-start justify-between gap-3">
+      <div className="relative flex items-start justify-between gap-3">
         <div>
           <Typography variant="caption" color="text.secondary" className="uppercase tracking-wider">
             {title}
           </Typography>
-          <Typography variant="h4" className="font-display mt-1">
+          <Typography variant="h4" className="font-display mt-1" sx={{ color: accent }}>
             {value}
           </Typography>
           {subtitle && (
@@ -41,12 +45,19 @@ export default function StatCard({
             </Typography>
           )}
           {to && (
-            <Typography variant="caption" sx={{ color: accent }} className="mt-2 inline-block opacity-80">
+            <Typography variant="caption" sx={{ color: accent }} className="mt-2 inline-block font-medium">
               View details →
             </Typography>
           )}
         </div>
-        <div className="rounded-xl p-2" style={{ background: `${accent}22`, color: accent }}>
+        <div
+          className="rounded-2xl p-2.5 shadow-sm"
+          style={{
+            background: `linear-gradient(145deg, ${accent}33, ${accent}14)`,
+            color: accent,
+            border: `1px solid ${accent}44`,
+          }}
+        >
           {icon}
         </div>
       </div>
@@ -55,22 +66,23 @@ export default function StatCard({
 
   const className =
     'stat-card glass-panel relative overflow-hidden block no-underline text-inherit ' +
-    (to ? 'cursor-pointer hover:ring-1 focus:outline-none focus-visible:ring-2 ' : '');
+    (to ? 'cursor-pointer focus:outline-none focus-visible:ring-2 ' : '');
+
+  const style = {
+    animation: `rise 0.5s ease-out ${delay}ms both`,
+    ['--card-accent' as string]: accent,
+  };
 
   if (to) {
     return (
-      <Link
-        to={to}
-        className={className}
-        style={{ animation: `rise 0.5s ease-out ${delay}ms both` }}
-      >
+      <Link to={to} className={className} style={style}>
         {content}
       </Link>
     );
   }
 
   return (
-    <div className={className} style={{ animation: `rise 0.5s ease-out ${delay}ms both` }}>
+    <div className={className} style={style}>
       {content}
     </div>
   );

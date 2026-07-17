@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Alert, Chip, Paper, Tab, Tabs, Typography } from '@mui/material';
+import PageHero from '../components/common/PageHero';
 import { githubApi } from '../services/api';
 
 export default function GitHubPage() {
@@ -27,9 +28,12 @@ export default function GitHubPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        GitHub Repositories
-      </Typography>
+      <PageHero
+        eyebrow="Source control"
+        title="GitHub Repositories"
+        subtitle="Live repos, commits, pull requests, and Actions health"
+        accent="#a78bfa"
+      />
       {reposQuery.isError && <Alert severity="warning">GitHub token not configured or API unavailable.</Alert>}
       {!reposQuery.isError && (reposQuery.data as unknown[] | undefined)?.length ? (
         <Alert severity="info">

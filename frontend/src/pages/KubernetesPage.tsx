@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import PageHero from '../components/common/PageHero';
 import { k8sApi } from '../services/api';
 
 export default function KubernetesPage() {
@@ -41,9 +42,12 @@ export default function KubernetesPage() {
 
   return (
     <div className="space-y-4">
-      <Typography variant="h4" className="font-display">
-        Kubernetes Cluster
-      </Typography>
+      <PageHero
+        eyebrow="Orchestration"
+        title="Kubernetes Cluster"
+        subtitle="Pods, deployments, services, nodes, and events by namespace"
+        accent="#60a5fa"
+      />
       {nsQuery.isError && <Alert severity="warning">Kubernetes API unavailable or disabled.</Alert>}
 
       <TextField
