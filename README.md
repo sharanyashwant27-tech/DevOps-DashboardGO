@@ -5,7 +5,8 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 ![Go](https://img.shields.io/badge/Go-1.25-00ADD8) ![React](https://img.shields.io/badge/React-18-61DAFB) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791) ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED) ![Kubernetes](https://img.shields.io/badge/Kubernetes-ready-326CE5)
 
 **Repository:** [sharanyashwant27-tech/DevOps-DashboardGO](https://github.com/sharanyashwant27-tech/DevOps-DashboardGO)  
-**Default app URL:** [http://localhost:8095](http://localhost:8095)
+**Default app URL:** [http://localhost:8095](http://localhost:8095)  
+**Local image:** `devops-dashboard-go:latest`
 
 ---
 
@@ -23,6 +24,15 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 | **Deployments** | History + rollback |
 | **Incidents / Alerts** | Priority, SLA, comments, ack/resolve/mute |
 | **Ops** | Zap logs, Prometheus `/metrics`, Grafana + Loki, audit trail |
+
+---
+
+## Clone
+
+```bash
+git clone https://github.com/sharanyashwant27-tech/DevOps-DashboardGO.git
+cd DevOps-DashboardGO
+```
 
 ---
 
@@ -53,7 +63,7 @@ docker compose -f deployments/docker-compose.yml up -d --build
 
 **Seeded admin:** `admin@devops.local` / `Admin@12345`
 
-### Rebuild only the app image
+### Rebuild the app image
 
 ```bash
 docker compose -f deployments/docker-compose.yml build backend
@@ -63,17 +73,26 @@ docker compose -f deployments/docker-compose.yml up -d --force-recreate backend
 Standalone image build:
 
 ```bash
-docker build -f deployments/Dockerfile.backend -t devops-command-center:latest .
+docker build -f deployments/Dockerfile.backend -t devops-dashboard-go:latest .
 docker run --rm -p 8095:8095 \
   --env-file .env \
   -e DCC_DATABASE_HOST=host.docker.internal \
   -e DCC_DATABASE_PORT=5434 \
   -e DCC_REDIS_HOST=host.docker.internal \
   -e DCC_REDIS_PORT=6380 \
-  devops-command-center:latest
+  devops-dashboard-go:latest
 ```
 
-The **backend image** is multi-stage: builds the React UI, compiles the Go API, and serves both on port **8095**.
+The **backend image** (`devops-dashboard-go:latest`) is multi-stage:
+
+1. Builds the React UI (`node:20`)
+2. Compiles the Go 1.25 API
+3. Serves UI + API from Alpine on port **8095** (non-root, healthcheck)
+
+CI pushes the same Dockerfile to GHCR on `main`:
+
+- `ghcr.io/sharanyashwant27-tech/devops-command-center-backend:latest`
+- `ghcr.io/sharanyashwant27-tech/devops-command-center-frontend:latest`
 
 ---
 
@@ -160,7 +179,7 @@ Windows note: if Application Control blocks `go run`, use the Docker backend ima
 
 | File | Role |
 |------|------|
-| `deployments/Dockerfile.backend` | Multi-stage API + embedded UI → `:8095` |
+| `deployments/Dockerfile.backend` | Multi-stage API + embedded UI → `devops-dashboard-go:latest` on `:8095` |
 | `deployments/Dockerfile.frontend` | Optional nginx SPA → `:80` |
 | `deployments/docker-compose.yml` | Postgres, Redis, backend, frontend, nginx, Prometheus, Grafana, Loki |
 | `.dockerignore` | Keeps build context small / excludes secrets |
@@ -191,7 +210,7 @@ cd backend && go test ./...
 cd frontend && npm run build
 ```
 
-GitHub Actions (`.github/workflows/ci.yml`): Go test → frontend build → Docker image build/push → Kubernetes deploy hook.
+GitHub Actions (`.github/workflows/ci.yml`): Go 1.25 test → frontend build → Docker image build/push to GHCR → Kubernetes deploy hook.
 
 ---
 

@@ -29,6 +29,7 @@ services:
       retries: 10
 
   backend:
+    image: devops-dashboard-go:latest
     build:
       context: ..
       dockerfile: deployments/Dockerfile.backend

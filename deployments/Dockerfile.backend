@@ -24,9 +24,11 @@ RUN go build -trimpath -ldflags="-s -w" -o /out/server ./cmd/server
 # ---------- Runtime image ----------
 FROM alpine:3.20
 LABEL org.opencontainers.image.title="DevOps Command Center" \
-      org.opencontainers.image.description="Enterprise DevOps dashboard API + UI" \
-      org.opencontainers.image.source="https://github.com/sharanyashwant27-tech" \
-      org.opencontainers.image.licenses="MIT"
+      org.opencontainers.image.description="Enterprise DevOps dashboard API + UI (Go + React)" \
+      org.opencontainers.image.source="https://github.com/sharanyashwant27-tech/DevOps-DashboardGO" \
+      org.opencontainers.image.url="https://github.com/sharanyashwant27-tech/DevOps-DashboardGO" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.version="1.0.0"
 
 RUN apk add --no-cache ca-certificates tzdata curl \
     && adduser -D -H -u 10001 appuser

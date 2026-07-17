@@ -9,7 +9,10 @@ RUN npm run build
 
 FROM nginx:1.27-alpine
 LABEL org.opencontainers.image.title="DevOps Command Center UI" \
-      org.opencontainers.image.description="React SPA for DevOps Command Center"
+      org.opencontainers.image.description="React SPA for DevOps Command Center" \
+      org.opencontainers.image.source="https://github.com/sharanyashwant27-tech/DevOps-DashboardGO" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.version="1.0.0"
 COPY deployments/nginx/frontend.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
