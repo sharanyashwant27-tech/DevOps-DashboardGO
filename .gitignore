@@ -1,0 +1,30 @@
+# Binaries / deps
+backend/bin/
+backend/vendor/
+frontend/node_modules/
+frontend/dist/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Env / secrets
+.env
+.env.local
+*.pem
+kubeconfig
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs / coverage
+*.log
+coverage.out
+*.out
+
+# Docker
+postgres_data/
+grafana_data/

@@ -1,0 +1,100 @@
+server:
+  host: "0.0.0.0"
+  port: 8095
+  mode: "debug" # debug | release | test
+  read_timeout: 30
+  write_timeout: 30
+
+database:
+  host: "localhost"
+  port: 5434
+  user: "devops"
+  password: "devops_secret"
+  name: "devops_command_center"
+  sslmode: "disable"
+  max_idle_conns: 10
+  max_open_conns: 100
+  conn_max_lifetime: 3600
+
+redis:
+  host: "localhost"
+  port: 6380
+  password: ""
+  db: 0
+
+jwt:
+  access_secret: "change-me-access-secret-min-32-chars!!"
+  refresh_secret: "change-me-refresh-secret-min-32-chars!"
+  access_ttl_minutes: 15
+  refresh_ttl_hours: 168
+
+cors:
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Origin"
+    - "Content-Type"
+    - "Authorization"
+    - "X-Request-ID"
+
+rate_limit:
+  requests_per_minute: 120
+  burst: 20
+
+jenkins:
+  url: ""
+  username: ""
+  token: ""
+  # When url is empty, serve built-in demo jobs so the UI works out of the box.
+  demo_mode: true
+
+github:
+  # Optional PAT for private repos + higher rate limits:
+  # https://github.com/settings/tokens (scopes: repo, read:user)
+  token: ""
+  # Public profile to load when token is empty (live public repos via GitHub API)
+  username: "sharanyashwant27-tech"
+  base_url: "https://api.github.com"
+  # Used only when both token and username are empty
+  demo_mode: true
+
+docker:
+  host: "unix:///var/run/docker.sock"
+  enabled: true
+
+kubernetes:
+  kubeconfig: ""
+  in_cluster: false
+  enabled: false
+
+smtp:
+  host: ""
+  port: 587
+  username: ""
+  password: ""
+  from: "noreply@devops-command-center.local"
+
+slack:
+  webhook_url: ""
+
+teams:
+  webhook_url: ""
+
+scheduler:
+  metrics_interval: "@every 30s"
+  alert_interval: "@every 1m"
+  cleanup_interval: "@daily"
+
+seed:
+  enabled: true
+  admin_email: "admin@devops.local"
+  admin_password: "Admin@12345"
+  admin_name: "System Admin"

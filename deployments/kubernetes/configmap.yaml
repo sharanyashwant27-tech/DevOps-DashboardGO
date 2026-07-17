@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dcc-config
+  namespace: devops-command-center
+data:
+  config.yaml: |
+    server:
+      host: "0.0.0.0"
+      port: 8080
+      mode: "release"
+    database:
+      host: "postgres"
+      port: 5432
+      user: "devops"
+      password: "devops_secret"
+      name: "devops_command_center"
+      sslmode: "disable"
+    redis:
+      host: "redis"
+      port: 6379
+    jwt:
+      access_secret: "change-me-access-secret-min-32-chars!!"
+      refresh_secret: "change-me-refresh-secret-min-32-chars!"
+      access_ttl_minutes: 15
+      refresh_ttl_hours: 168
+    cors:
+      allowed_origins: ["*"]
+      allowed_methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"]
+      allowed_headers: ["Origin","Content-Type","Authorization","X-Request-ID"]
+    rate_limit:
+      requests_per_minute: 180
+      burst: 40
+    docker:
+      enabled: false
+    kubernetes:
+      in_cluster: true
+      enabled: true
+    seed:
+      enabled: true
+      admin_email: "admin@devops.local"
+      admin_password: "Admin@12345"
+      admin_name: "System Admin"

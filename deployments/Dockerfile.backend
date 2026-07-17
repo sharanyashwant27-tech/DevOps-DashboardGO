@@ -1,0 +1,49 @@
+# syntax=docker/dockerfile:1
+
+# ---------- Frontend build ----------
+FROM node:20-alpine AS frontend-builder
+WORKDIR /ui
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install --no-audit --no-fund
+COPY frontend/ .
+RUN npm run build
+
+# ---------- Backend build ----------
+FROM golang:1.25-alpine AS backend-builder
+WORKDIR /src
+ENV GOTOOLCHAIN=auto \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
+RUN apk add --no-cache git ca-certificates tzdata
+COPY backend/go.mod backend/go.sum ./
+RUN go mod download
+COPY backend/ .
+RUN go build -trimpath -ldflags="-s -w" -o /out/server ./cmd/server
+
+# ---------- Runtime image ----------
+FROM alpine:3.20
+LABEL org.opencontainers.image.title="DevOps Command Center" \
+      org.opencontainers.image.description="Enterprise DevOps dashboard API + UI" \
+      org.opencontainers.image.source="https://github.com/sharanyashwant27-tech" \
+      org.opencontainers.image.licenses="MIT"
+
+RUN apk add --no-cache ca-certificates tzdata curl \
+    && adduser -D -H -u 10001 appuser
+
+WORKDIR /app
+COPY --from=backend-builder /out/server /app/server
+COPY backend/config/config.yaml /app/config/config.yaml
+COPY --from=frontend-builder /ui/dist /app/web
+
+ENV DCC_CONFIG=/app/config/config.yaml \
+    DCC_FRONTEND_DIR=/app/web \
+    DCC_SERVER_PORT=8095
+
+EXPOSE 8095
+USER appuser
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD curl -fsS http://127.0.0.1:8095/health || exit 1
+
+ENTRYPOINT ["/app/server"]
