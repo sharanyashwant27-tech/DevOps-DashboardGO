@@ -60,9 +60,17 @@ services:
       DCC_JENKINS_URL: ${DCC_JENKINS_URL:-}
       DCC_JENKINS_USERNAME: ${DCC_JENKINS_USERNAME:-}
       DCC_JENKINS_TOKEN: ${DCC_JENKINS_TOKEN:-}
+      DCC_DOCKER_ENABLED: "true"
+      DCC_DOCKER_HOST: unix:///var/run/docker.sock
+      DOCKER_HOST: unix:///var/run/docker.sock
+    volumes:
+      # Expose the host Docker engine to the Operations Console (Docker Desktop / Linux).
+      - /var/run/docker.sock:/var/run/docker.sock
     # UI is baked into the image (see Dockerfile.backend). Optional live mount:
-    # volumes:
     #   - ../frontend/dist:/app/web:ro
+    group_add:
+      # Docker Desktop often owns the socket as root; keep non-root appuser in that group.
+      - "0"
     ports:
       - "8095:8095"
     restart: unless-stopped

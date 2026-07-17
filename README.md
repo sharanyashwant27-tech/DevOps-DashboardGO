@@ -6,7 +6,7 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 
 **Repository:** [sharanyashwant27-tech/DevOps-DashboardGO](https://github.com/sharanyashwant27-tech/DevOps-DashboardGO)  
 **Default app URL:** [http://localhost:8095](http://localhost:8095)  
-**Local image:** `devops-dashboard-go:latest`
+**Local image:** `devops-dashboard-go:latest` (v1.0.1)
 
 ---
 
@@ -18,7 +18,7 @@ Enterprise DevOps dashboard for CI/CD, GitHub, Docker, Kubernetes, servers, depl
 | **Dashboard** | Animated KPI cards → modules, Chart.js, WebSocket live updates |
 | **Jenkins** | Jobs, queue, builds, trigger/stop, console, filters (+ demo mode) |
 | **GitHub** | Live repos (username and/or PAT), commits, PRs, Actions, health |
-| **Docker** | Containers, images, volumes, networks, stats, logs, lifecycle |
+| **Docker** | Live containers/images/volumes/networks via host Docker socket |
 | **Kubernetes** | Pods, deployments, services, nodes, events, scale/restart/logs |
 | **Servers** | Host CPU/RAM/disk/load/processes (gopsutil) |
 | **Deployments** | History + rollback |
@@ -70,7 +70,7 @@ docker compose -f deployments/docker-compose.yml build backend
 docker compose -f deployments/docker-compose.yml up -d --force-recreate backend
 ```
 
-Standalone image build:
+Standalone image build (mount the Docker socket for Operations Console → Docker Monitoring):
 
 ```bash
 docker build -f deployments/Dockerfile.backend -t devops-dashboard-go:latest .
@@ -80,6 +80,11 @@ docker run --rm -p 8095:8095 \
   -e DCC_DATABASE_PORT=5434 \
   -e DCC_REDIS_HOST=host.docker.internal \
   -e DCC_REDIS_PORT=6380 \
+  -e DCC_DOCKER_ENABLED=true \
+  -e DCC_DOCKER_HOST=unix:///var/run/docker.sock \
+  -e DOCKER_HOST=unix:///var/run/docker.sock \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --group-add 0 \
   devops-dashboard-go:latest
 ```
 
@@ -93,6 +98,26 @@ CI pushes the same Dockerfile to GHCR on `main`:
 
 - `ghcr.io/sharanyashwant27-tech/devops-command-center-backend:latest`
 - `ghcr.io/sharanyashwant27-tech/devops-command-center-frontend:latest`
+
+---
+
+## Docker Monitoring (Operations Console)
+
+Compose mounts the **host Docker engine** into `dcc-backend` so the Docker page lists real containers:
+
+| Setting | Value |
+|---------|--------|
+| Socket volume | `/var/run/docker.sock:/var/run/docker.sock` |
+| `DCC_DOCKER_HOST` / `DOCKER_HOST` | `unix:///var/run/docker.sock` |
+| `group_add` | `0` (socket access for non-root `appuser`) |
+
+**Requirements**
+
+- Docker Desktop (or a Linux Docker daemon) must be running
+- On Docker Desktop: enable use of the default Docker socket (Advanced settings)
+- Health check should show `"docker":{"reachable":true}` at `/health`
+
+Without the socket mount you will see **Docker daemon unavailable**.
 
 ---
 
@@ -111,6 +136,8 @@ DCC_GITHUB_TOKEN=                 # PAT from https://github.com/settings/tokens
 DCC_JENKINS_URL=
 DCC_JENKINS_USERNAME=
 DCC_JENKINS_TOKEN=
+DCC_DOCKER_ENABLED=true
+DCC_DOCKER_HOST=unix:///var/run/docker.sock
 DCC_JWT_ACCESS_SECRET=change-me-access-secret-min-32-chars!!
 DCC_JWT_REFRESH_SECRET=change-me-refresh-secret-min-32-chars!
 ```
@@ -118,6 +145,7 @@ DCC_JWT_REFRESH_SECRET=change-me-refresh-secret-min-32-chars!
 - **GitHub without token:** public repos for `DCC_GITHUB_USERNAME`  
 - **GitHub with token:** authenticated (private repos + higher rate limits)  
 - **Jenkins without URL:** built-in demo jobs  
+- **Docker:** requires host socket mounted (see above)
 
 Never commit `.env` or PATs.
 
@@ -128,7 +156,7 @@ Never commit `.env` or PATs.
 ```
 Browser → :8095 (Gin: static UI + /api/v1 + /ws)
               → PostgreSQL / Redis
-              → Jenkins / GitHub / Docker / Kubernetes
+              → Jenkins / GitHub / Docker socket / Kubernetes
               → Prometheus ← /metrics
 ```
 
@@ -166,12 +194,13 @@ docker compose -f deployments/docker-compose.yml up -d postgres redis
 
 cd backend && go mod tidy && go run ./cmd/server
 # API + (after build) UI on http://localhost:8095
+# On Linux/macOS with Docker: DOCKER_HOST=unix:///var/run/docker.sock
 
 cd frontend && npm install && npm run build
 # or: npm run dev  → http://localhost:3000 (proxies API to 8095)
 ```
 
-Windows note: if Application Control blocks `go run`, use the Docker backend image above.
+Windows note: if Application Control blocks `go run`, use the Docker backend image above (with the socket volume).
 
 ---
 
@@ -181,7 +210,7 @@ Windows note: if Application Control blocks `go run`, use the Docker backend ima
 |------|------|
 | `deployments/Dockerfile.backend` | Multi-stage API + embedded UI → `devops-dashboard-go:latest` on `:8095` |
 | `deployments/Dockerfile.frontend` | Optional nginx SPA → `:80` |
-| `deployments/docker-compose.yml` | Postgres, Redis, backend, frontend, nginx, Prometheus, Grafana, Loki |
+| `deployments/docker-compose.yml` | Full stack + Docker socket mount for live monitoring |
 | `.dockerignore` | Keeps build context small / excludes secrets |
 
 Compose host ports (avoid local conflicts):

@@ -214,6 +214,8 @@ func Load(path string) (*Config, error) {
 	bindEnv(v, "github.token", "DCC_GITHUB_TOKEN")
 	bindEnv(v, "github.username", "DCC_GITHUB_USERNAME")
 	bindEnv(v, "github.demo_mode", "DCC_GITHUB_DEMO_MODE")
+	bindEnv(v, "docker.host", "DCC_DOCKER_HOST")
+	bindEnv(v, "docker.enabled", "DCC_DOCKER_ENABLED")
 	bindEnv(v, "slack.webhook_url", "DCC_SLACK_WEBHOOK_URL")
 	bindEnv(v, "teams.webhook_url", "DCC_TEAMS_WEBHOOK_URL")
 

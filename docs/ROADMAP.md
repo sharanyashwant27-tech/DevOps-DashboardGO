@@ -18,7 +18,7 @@ Phased plan to keep delivery manageable. Status reflects the current codebase.
 | 2 | Dashboard + real-time WebSocket | **Partial** | KPI cards, charts, click-through nav, WS hub + live stats push; deepen channel subscriptions (builds/logs) |
 | 3 | Jenkins integration | **Partial** | Live REST client + **demo mode**; trigger/stop/console/queue/filters |
 | 4 | GitHub integration | **Done** (live public/auth) | Live mode via PAT / public username (`sharanyashwant27-tech`); repos, commits, PRs, Actions, health |
-| 5 | Docker monitoring | **Partial** | Docker SDK list/lifecycle/logs/stats; needs reliable daemon socket in Docker Desktop / host |
+| 5 | Docker monitoring | **Done** | Docker SDK list/lifecycle/logs/stats; Compose mounts host `/var/run/docker.sock` into `dcc-backend` |
 | 6 | Kubernetes monitoring | **Partial** | client-go list/scale/restart/logs; enable `kubernetes.enabled` + kubeconfig / in-cluster |
 | 7 | Server metrics (Prometheus / Node Exporter) | **Partial** | Local gopsutil + Prometheus scrape + Grafana/Loki stack; add Node Exporter + PromQL dashboards |
 | 8 | Deployment history & rollback | **Done** (basic) | CRUD history, rollback API + UI button; wire to real CD pipelines |
@@ -46,9 +46,9 @@ Phased plan to keep delivery manageable. Status reflects the current codebase.
 **Have:** Live repos for configured user/token; health/commits/PRs/Actions.  
 **Next:** richer UI tables (not JSON dumps), contributors/releases tabs, webhook ingress for Actions status.
 
-### 5 — Docker monitoring 🟨
-**Have:** Containers/images/volumes/networks, start/stop/restart/delete, logs/stats.  
-**Next:** mount Docker socket correctly on Windows; CPU/mem cards per container; multi-host `docker_hosts`.
+### 5 — Docker monitoring ✅
+**Have:** Containers/images/volumes/networks, start/stop/restart/delete, logs/stats; Compose mounts host Docker socket into `dcc-backend`.  
+**Next:** CPU/mem cards per container; multi-host `docker_hosts`.
 
 ### 6 — Kubernetes monitoring 🟨
 **Have:** Namespaces, pods, deployments, services, nodes, events, scale/restart/delete, logs.  
@@ -79,7 +79,7 @@ Phased plan to keep delivery manageable. Status reflects the current codebase.
 ## Suggested sequence from here
 
 1. **Phase 7** — Node Exporter + Grafana panels (high demo value, low risk)  
-2. **Phase 5/6** — Wire Docker socket + kubeconfig so infra pages leave “unavailable”  
+2. **Phase 6** — Enable kubeconfig / in-cluster so Kubernetes leaves “unavailable”  
 3. **Phase 2** — Richer WebSocket live feeds  
 4. **Phase 10** — Real Slack/Teams notifications  
 5. **Phase 11** — Test coverage + production hardening  
